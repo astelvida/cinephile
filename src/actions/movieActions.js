@@ -5,6 +5,11 @@ import {
   FETCH_MOVIES,
   FETCH_MOVIES_SUCCESS,
   FETCH_MOVIES_ERROR,
+  FETCH_CREDITS,
+  FETCH_CREDITS_SUCCESS,
+  FETCH_CREDITS_ERROR,
+  FETCH_RECOMMENDATIONS_SUCCESS,
+  FETCH_RECOMMENDATIONS
 } from './types';
 
 import genres from '../genres';
@@ -20,6 +25,29 @@ const receiveMovies = (movies, filters) => ({
   movies,
   filters,
 });
+
+
+export const getCredits = (id) =>
+  (dispatch) => {
+    dispatch({ type: FETCH_CREDITS, id });
+    return axios.get(`${BASE_URL}/movie/${id}/credits${API_KEY}`)
+      .then((resp) => dispatch({
+        type: FETCH_CREDITS_SUCCESS,
+        id,
+        credits: resp.data,
+      }));
+  };
+
+export const getRecommendations = (id) =>
+  (dispatch) => {
+    dispatch({ type: FETCH_RECOMMENDATIONS, id });
+    return axios.get(`${BASE_URL}/movie/${id}/recommendations${API_KEY}`)
+      .then((resp) => dispatch({
+        type: FETCH_RECOMMENDATIONS_SUCCESS,
+        id,
+        movies: resp.data.results,
+      }));
+  };
 
 export const getInitialData = () => (dispatch) => {
   dispatch({ type: FETCH_MOVIES, filters: genres.map((genre) => genre.id) });

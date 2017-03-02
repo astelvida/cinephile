@@ -27,7 +27,7 @@ class AppSetup extends Component {
   skipAndGoToNext = () => {}
 
   saveAndGoToApp = () => {
-    this.props.savePrefs(this.state).then(() => Actions.app());
+    this.props.savePrefs(this.state).then(() => Actions.container());
   }
 
   render() {

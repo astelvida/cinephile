@@ -1,20 +1,18 @@
 import React, { Component } from 'react';
 import { View, Text, ScrollView } from 'react-native';
+import { Actions } from 'react-native-router-flux';
 import MovieItem from './MovieItem';
 
 class MoviesList extends Component {
   render() {
-    const { movies } = this.props;
+    const { movies, genres, selectedTab } = this.props;
     return (
-      <View style={styles.movieListContainer}>
-        <View style={styles.listContainer}>
-          <Text>{this.props.selectedTab}</Text>
-          <ScrollView>
-            {movies.map((movie) =>
-              <MovieItem key={movie.id} movie={movie} />
-            )}
-          </ScrollView>
-        </View>
+      <View style={styles.listContainer}>
+        <ScrollView>
+          {movies.map((movie, idx) =>
+            <MovieItem key={movie.id} idx={idx} movie={movie} genres={genres} />
+          )}
+        </ScrollView>
       </View>
     );
   }
@@ -25,14 +23,8 @@ export default MoviesList;
 
 
 const styles = {
-  movieListContainer: {
-    flex: 1,
-  },
-  featuredContainer: {
-    flex: 2,
-  },
   listContainer: {
-    flex: 3,
+    flex: 1,
     justifyContent: 'space-between',
     alignItems: 'stretch'
   },

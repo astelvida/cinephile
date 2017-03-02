@@ -5,6 +5,7 @@ import {
   SAVE_MOVIE_SUCCESS,
   FETCH_WATCHLIST,
   FETCH_WATCHLIST_SUCCESS,
+  REMOVE_MOVIE_SUCCESS
 } from './types';
 
 export const savePrefs = (preferences, type) => (
@@ -46,3 +47,19 @@ export const getWatchlist = () => (
     });
   }
 );
+
+export const removeMovie = (id, idx) => (dispatch) => {
+  const { currentUser } = firebase.auth();
+  console.log("in action", id, idx)
+  return firebase.database()
+  .ref(`/users/${currentUser.uid}/watchlist/${id}`)
+  .remove()
+  .then(() => {
+    console.log("REMOVED");
+    dispatch({
+      type: REMOVE_MOVIE_SUCCESS,
+      id,
+      idx,
+    });
+  });
+};

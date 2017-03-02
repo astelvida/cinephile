@@ -1,31 +1,45 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { View, Text, Image } from 'react-native';
-import { Button } from './common';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
+
+import { ToggleButton } from './common';
 import * as actions from '../actions';
 
 const MovieItem = (props) => {
-  const sliceText = (text) => `${text.slice(0, 100)}...`;
+
+  const genres = props.movie.genre_ids.map((genreId) =>
+    props.genres.byId[genreId]);
+  const getIcon = (movie) => movie.inWatchlist? 'check-circle': 'plus-circle';
+  const removeOrAdd = (movie, idx) => !movie.inWatchlist? props.addMovie(movie) : props.removeMovie(movie.id, idx);
+
   return (
-    <View style={styles.itemContainer}>
+    <TouchableOpacity
+      style={styles.itemContainer}
+      onPress={() => Actions.movieDetail({
+        title: props.movie.title,
+        movie: props.movie,
+        removeOrAdd,
+        genres,
+        getIcon
+      })}
+    >
       <View style={styles.itemTextContainer}>
-        <Text style={styles.titleText}>{props.movie.title}</Text>
-        <Text style={styles.text}>
-          {sliceText(props.movie.overview)}
+        <Text style={styles.titleText}>
+          {props.movie.title} <Text style={styles.releaseText}>
+          ({props.movie.release_date.slice(0, 4)})</Text>
         </Text>
-        <Text style={styles.text}>{props.movie.release_date}</Text>
+        <View style={styles.genres}>
+          {genres.map((genre) =>
+            <Text style={styles.text} key={genre.id}>{genre.name} </Text>
+          )}
+        </View>
         <Text style={styles.text}>Rating: {props.movie.vote_average}</Text>
-        <View style={{ flex: 1, flexDirection: 'row' }}>
-          <Button onPress={() => Actions.movieDetail({ movie: props.movie })}>
-            More info..
-          </Button>
-          <Button
-            onPress={() => props.addMovie(props.movie)}
-            style={props.movie.inWatchlist? { backgroundColor: '#E91E63' }: ''}
-          >
-            {props.movie.inWatchlist? 'in Watchlist': 'Add To WatchList'}
-          </Button>
+        <View style={styles.watchlistButton}>
+          <ToggleButton
+            name={getIcon(props.movie)}
+            onPress={() => removeOrAdd(props.movie, props.idx)}
+          />
         </View>
       </View>
       <View style={styles.imageContainer}>
@@ -35,12 +49,11 @@ const MovieItem = (props) => {
           source={{ uri: `https://image.tmdb.org/t/p/w92${props.movie.poster_path}` }}
         />
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
 export default connect(null, actions)(MovieItem);
-
 
 const styles = {
   itemContainer: {
@@ -49,33 +62,48 @@ const styles = {
     borderWidth: 1,
     borderRadius: 2,
     borderColor: '#ddd',
-    paddingTop: 5,
-    paddingBottom: 5,
+    padding: 5,
     borderBottomWidth: 0,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 2,
+    justifyContent: 'space-between',
+    // alignItems: 'center'
   },
   itemTextContainer: {
     flex: 3,
-    padding: 5,
+    paddingLeft: 10,
+    paddingRight: 5,
     justifyContent: 'space-between',
+    alignItems: 'stretch',
   },
-  imageContainer: {
+  textHeaderContainer: {
+    flexDirection: 'row',
+    paddingBottom: 5,
+  },
+  watchlistButton: {
     flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
     alignItems: 'center',
-    justifyContent: 'center'
+  },
+  titleText: {
+    fontWeight: 'bold',
+    paddingBottom: 5
+  },
+  releaseText: {
+    fontStyle: 'italic',
+    fontWeight: 'normal'
+  },
+  text: {
+    fontSize: 13,
+    paddingBottom: 2,
+  },
+  genres: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   imageStyle: {
     flex: 1,
     width: 100,
     height: 100,
   },
-  titleText: {
-    fontWeight: 'bold'
-  },
-  text: {
-    flex: 1,
-  }
 };

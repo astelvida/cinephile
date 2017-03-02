@@ -9,11 +9,16 @@ import LoginForm from './LoginForm';
 import * as actions from '../actions';
 import { getMoviesList } from '../reducers';
 
+
 class AppContainer extends Component {
   static defaultProps = {
     movies: [],
     isFetching: false,
   };
+
+  componentWillMount() {
+    this.props.getGenres();
+  }
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.user.isAuth && !this.props.user.isAuth) {
@@ -47,6 +52,7 @@ class AppContainer extends Component {
           changeTab={(selected) => this.props.changeTabPress(selected)}
           movies={this.props.movies}
           selectedTab={this.props.selectedTab}
+          genres={this.props.genres}
         />
       </View>
     );
@@ -82,7 +88,7 @@ export default connect(mapStateToProps, actions)(AppContainer);
 const styles = {
   mainContainer: {
     flex: 1,
-    paddingTop: 70,
+    paddingTop: 63,
     flexDirection: 'column',
     backgroundColor: '#eee',
     justifyContent: 'center',

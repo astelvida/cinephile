@@ -5,3 +5,4 @@ export * from './CardSection';
 export * from './InputField';
 export * from './Spinner';
 export * from './SearchBar';
+export * from './ToggleButton';

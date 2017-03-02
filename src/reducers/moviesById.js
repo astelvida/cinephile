@@ -1,10 +1,16 @@
 export const getMoviesById = (state = {}, arraysList) => {
   const nextState = { ...state };
-  arraysList.forEach((list) => {
-    list.forEach((movie) => {
+  if (Array.isArray(arraysList[0])) {
+    arraysList.forEach((list) => {
+      list.forEach((movie) => {
+        nextState[movie.id] = movie;
+      });
+    });
+  } else {
+    arraysList.forEach((movie) => {
       nextState[movie.id] = movie;
     });
-  });
+  }
   return nextState;
 };
 
@@ -12,8 +18,8 @@ export const getMovie = (state, id) => state[id];
 
 export const updateMoviesById = (state, list) => {
   const nextState = { ...state };
-  for (const movie in list) {
-    nextState[parseInt(movie)].inWatchlist = true;
+  for (const movieId in list) {
+    nextState[parseInt(movieId, 10)].inWatchlist = true;
   }
   return nextState;
 };

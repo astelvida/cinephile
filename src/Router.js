@@ -1,5 +1,5 @@
 import React from 'react';
-import { Scene, Router } from 'react-native-router-flux';
+import { Scene, Router, Actions } from 'react-native-router-flux';
 
 import AppContainer from './components/AppContainer';
 import AppSetup from './components/AppSetup';
@@ -19,12 +19,13 @@ const RouterComponent = (props) => {
         <Scene
           key={'AppSetup'}
           component={AppSetup}
-          title={'Make your pick'}
+          title={'Pick your favorite genres'}
           navigationBarStyle={styles.navbarContainer}
           titleStyle={styles.titleStyle}
-          hideNavBar
         />
         <Scene
+          onRight={() => Actions.container()}
+          rightTitle="Home"
           key={'movieDetail'}
           component={MovieDetail}
           navigationBarStyle={styles.navbarContainer}
@@ -32,7 +33,7 @@ const RouterComponent = (props) => {
         />
       </Scene>
     </Router>
-  )
+  );
 };
 
 // <Scene key={'setup'} hideNavBar>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-const GenreButton = ({ id, name, style, onPress }) => {
+const GenreButton = ({ id, name, style, buttonStyle, onPress }) => {
   const { genreText, genreButton } = styles;
 
   return (
@@ -12,7 +12,7 @@ const GenreButton = ({ id, name, style, onPress }) => {
       value={id}
       onPress={onPress}
     >
-      <Text style={genreText}>{name}</Text>
+      <Text style={[genreText, buttonStyle]}>{name}</Text>
     </TouchableOpacity>
   );
 };
@@ -20,7 +20,7 @@ const GenreButton = ({ id, name, style, onPress }) => {
 const styles = {
   genreButton: {
     borderRadius: 5,
-    backgroundColor: '#00BFA5',
+    backgroundColor: '#26A69A',
     padding: 10,
     margin: 10,
   },

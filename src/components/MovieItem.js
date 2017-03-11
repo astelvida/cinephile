@@ -10,8 +10,11 @@ const MovieItem = (props) => {
 
   const genres = props.movie.genre_ids.map((genreId) =>
     props.genres.byId[genreId]);
-  const getIcon = (movie) => movie.inWatchlist? 'check-circle': 'plus-circle';
-  const removeOrAdd = (movie, idx) => !movie.inWatchlist? props.addMovie(movie) : props.removeMovie(movie.id, idx);
+  const getIcon = (movie, tab) => (tab === 'watchlist'?
+    'times': movie.inWatchlist? 'check-circle': 'plus-circle');
+  const removeOrAdd = (movie) => !movie.inWatchlist?
+    props.addMovie(movie) : props.removeMovie(movie.id);
+  const getIconStyle = (tab) => tab === 'watchlist'? { color: '#FF5252' } : '';
 
   return (
     <TouchableOpacity
@@ -37,8 +40,9 @@ const MovieItem = (props) => {
         <Text style={styles.text}>Rating: {props.movie.vote_average}</Text>
         <View style={styles.watchlistButton}>
           <ToggleButton
-            name={getIcon(props.movie)}
-            onPress={() => removeOrAdd(props.movie, props.idx)}
+            name={getIcon(props.movie, props.selectedTab)}
+            iconStyle={getIconStyle(props.selectedTab)}
+            onPress={() => removeOrAdd(props.movie)}
           />
         </View>
       </View>

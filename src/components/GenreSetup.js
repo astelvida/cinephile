@@ -20,17 +20,14 @@ class GenreSetup extends Component {
     return (
       <View style={mainContainer}>
 
-        <View style={headerContainer}>
-          <Text style={headerText}>I&apos;m in the mood for...</Text>
-        </View>
-
         <View style={genreContainer}>
           {allIds.map((id) =>
             <GenreButton
               name={byId[id].name}
               key={id}
               id={id}
-              style={parentState[id]? { backgroundColor: 'pink' }: ''}
+              style={parentState[id]? { backgroundColor: '#E57373' }: ''}
+              buttonStyle={parentState[id]? { color: '#fff' }: ''}
               onPress={() => toggleGenre(id)}
             />
           )}
@@ -41,17 +38,6 @@ class GenreSetup extends Component {
   }
 }
 
-// const mapStateToProps = ({ genres }) => {
-//   const { allIds, byId, isFetching, error } = genres;
-//   return {
-//     allIds,
-//     byId,
-//     isFetching,
-//     error,
-//   };
-// };
-//
-// export default connect(mapStateToProps, actions)(GenreSetup);
 export default GenreSetup;
 
 const styles = {
@@ -59,26 +45,13 @@ const styles = {
     flex: 1,
   },
 
-  headerContainer: {
-    flex: 1,
-    backgroundColor: '#8E24AA',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  headerText: {
-    color: '#eee',
-    fontSize: 20,
-  },
-
   genreContainer: {
     flex: 8,
-    paddingTop: 10,
+    paddingTop: 90,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     flexWrap: 'wrap',
-    backgroundColor: '#BDBDBD',
   },
 };
 

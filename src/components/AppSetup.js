@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Actions } from 'react-native-router-flux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import AppIntro from 'react-native-app-intro';
 
 import GenreSetup from './GenreSetup';
@@ -13,7 +13,7 @@ import * as actions from '../actions';
 class AppSetup extends Component {
   state = { genres: {}, custom: {} };
 
-  componentWillMount() {
+  componentDidMount() {
     this.props.getGenres();
   }
 
@@ -38,8 +38,12 @@ class AppSetup extends Component {
         onNextBtnClick={() => this.goToNext()}
         onSlideChange={() => this.goToNext()}
         onSkipBtnClick={() => this.skipAndGoToNext()}
+        activeDotColor="#424242"
+        dotColor="#424242"
+        leftTextColor="#424242"
+        rightTextColor="#424242"
       >
-        <View style={[styles.slide, { backgroundColor: '#fa931d' }]}>
+        <View style={[styles.slide, { backgroundColor: '#fff' }]}>
           <GenreSetup
             toggleGenre={(id) => this.toggleClick(id)}
             allIds={allIds}
@@ -47,9 +51,11 @@ class AppSetup extends Component {
             parentState={this.state.genres}
           />
         </View>
-        <View style={[styles.slide, { backgroundColor: '#a4b602' }]}>
+        <View style={[styles.slide, { backgroundColor: '#fff' }]}>
           <View level={-10}>
-            <CustomSetup />
+            <Text style={{ fontSize: 25, color: '#fff' }}>
+              Save genre preferences?
+            </Text>
           </View>
         </View>
       </AppIntro>
@@ -109,7 +115,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     flexWrap: 'wrap',
-    backgroundColor: '#BDBDBD',
   },
   headerText: {
     color: '#eee',

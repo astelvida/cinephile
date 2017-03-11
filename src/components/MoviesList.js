@@ -10,7 +10,12 @@ class MoviesList extends Component {
       <View style={styles.listContainer}>
         <ScrollView>
           {movies.map((movie, idx) =>
-            <MovieItem key={movie.id} idx={idx} movie={movie} genres={genres} />
+            <MovieItem
+              key={movie.id}
+              selectedTab={selectedTab}
+              movie={movie}
+              genres={genres}
+            />
           )}
         </ScrollView>
       </View>

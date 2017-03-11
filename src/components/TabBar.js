@@ -40,7 +40,6 @@ class TabBar extends Component {
             <MoviesList
               movies={this.props.movies}
               selectedTab={this.props.selectedTab}
-              user={this.props.user}
               genres={this.props.genres}
             />
           </Icon.TabBarItemIOS>
@@ -50,10 +49,11 @@ class TabBar extends Component {
             selected={this.props.selectedTab === 'watchlist'}
             onPress={() => this.props.changeTab('watchlist')}
           >
-            <Watchlist
+            <MoviesList
+              movies={this.props.movies}
               selectedTab={this.props.selectedTab}
               user={this.props.user}
-              movies={this.props.movies}
+              genres={this.props.genres}
             />
           </Icon.TabBarItemIOS>
         </TabBarIOS>

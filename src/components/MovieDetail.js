@@ -11,15 +11,18 @@ const { width, height } = Dimensions.get('window');
 class MovieDetail extends Component {
   static defaultProps = {
     cast: [],
-    crew: []
+    crew: [],
   }
-  componentWillMount() {
+
+  componentDidMount() {
     this.props.getCredits(this.props.movie.id);
     this.props.getRecommendations(this.props.movie.id);
   }
 
   render() {
-    const { movie, cast, crew, genres, getIcon, recommendations, genresById } = this.props;
+    const { movie, cast, crew, genres, getIcon, inWatchlist, recommendations, genresById } = this.props;
+
+    console.log(movie.inWatchlist)
 
     const getCrewMember = (job) => {
       const result = crew.find((member) => member.job === job);
@@ -49,7 +52,7 @@ class MovieDetail extends Component {
               </Text>
               <ToggleButton
                 style={{ flex: 1, width: 100, height: 25 }}
-                name={getIcon(movie)}
+                name={(() => getIcon(movie))()}
                 onPress={() => this.props.removeOrAdd(movie)}
               />
             </View>
@@ -86,6 +89,7 @@ class MovieDetail extends Component {
                   style={styles.imagesRecContainer}
                   key={rec.id}
                   onPress={() => Actions.movieDetail({
+                    title: rec.title,
                     movie: rec,
                     genres: rec.genre_ids.map((genreId) =>
                       genresById[genreId]
@@ -113,7 +117,12 @@ const mapStateToProps = ({ movies, genres }, { movie }) => ({
   cast: movies.byId[movie.id].cast,
   crew: movies.byId[movie.id].crew,
   recommendations: movies.byId[movie.id].recommendations?
-  movies.byId[movie.id].recommendations.map((id) => movies.byId[id]): []
+  movies.byId[movie.id].recommendations
+  .map((id) => {
+    console.log("id", movies.byId[id], id)
+    return movies.byId[id];
+  })
+  .filter((item) => item !== undefined): []
 });
 
 export default connect(mapStateToProps, actions)(MovieDetail);

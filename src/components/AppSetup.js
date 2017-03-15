@@ -53,7 +53,7 @@ class AppSetup extends Component {
         </View>
         <View style={[styles.slide, { backgroundColor: '#fff' }]}>
           <View level={-10}>
-            <Text style={{ fontSize: 25, color: '#fff' }}>
+            <Text style={{ fontSize: 25, color: '#00897B' }}>
               Save genre preferences?
             </Text>
           </View>

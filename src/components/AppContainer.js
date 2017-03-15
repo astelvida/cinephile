@@ -33,9 +33,9 @@ class AppContainer extends Component {
       return (
         <View style={{ flex: 1 }}>
           <View style={styles.mainContainer}>
-            <Text style={styles.headerText}>AppContainer to movie Picker</Text>
+            <Text style={styles.headerText}>Welcome to Cinephile!</Text>
             <Text style={styles.text}>
-              Create an Account
+              Create an account or login
             </Text>
             <LoginForm />
           </View>
@@ -59,25 +59,25 @@ class AppContainer extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  let options;
-  if (state.selectedTab === 'home') {
-    options = state.auth.preferences.genres;
-  }
-  if (state.selectedTab === 'popular') {
-    options = ['popular'];
-  }
-  if (state.selectedTab === 'watchlist' ||
-      state.selectedTab === 'geolocation') {
-    options = ['watchlist'];
-  }
+const mapStateToProps = (state, ownProps) => {
+  // let options;
+  // if (state.selectedTab === 'home') {
+  //   options = state.auth.preferences.genres;
+  // }
+  // if (state.selectedTab === 'popular') {
+  //   options = ['popular'];
+  // }
+  // if (state.selectedTab === 'watchlist' ||
+  //     state.selectedTab === 'geolocation') {
+  //   options = ['watchlist'];
+  // }
   return {
     genres: state.genres,
     isFetching: state.movies.isFetching ||
       state.movies.listByGenre.popular.isFetching,
     isFetchingWatchlist: state.movies.listByGenre.watchlist.isFetching,
     user: state.auth,
-    movies: getMoviesList(state, options),
+    movies: getMoviesList(state, ownProps.params),
     selectedTab: state.selectedTab,
   };
 };

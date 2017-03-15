@@ -60,24 +60,24 @@ class AppContainer extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // let options;
-  // if (state.selectedTab === 'home') {
-  //   options = state.auth.preferences.genres;
-  // }
-  // if (state.selectedTab === 'popular') {
-  //   options = ['popular'];
-  // }
-  // if (state.selectedTab === 'watchlist' ||
-  //     state.selectedTab === 'geolocation') {
-  //   options = ['watchlist'];
-  // }
+  let options;
+  if (state.selectedTab === 'home') {
+    options = state.auth.preferences.genres;
+  }
+  if (state.selectedTab === 'popular') {
+    options = ['popular'];
+  }
+  if (state.selectedTab === 'watchlist' ||
+      state.selectedTab === 'geolocation') {
+    options = ['watchlist'];
+  }
   return {
     genres: state.genres,
     isFetching: state.movies.isFetching ||
       state.movies.listByGenre.popular.isFetching,
     isFetchingWatchlist: state.movies.listByGenre.watchlist.isFetching,
     user: state.auth,
-    movies: getMoviesList(state, ownProps.params),
+    movies: getMoviesList(state, options),
     selectedTab: state.selectedTab,
   };
 };
